@@ -1,11 +1,17 @@
-import { sql } from 'drizzle-orm';
+import { constants } from 'node:http2';
 
+import { sql } from 'drizzle-orm';
+import * as jwt from 'jsonwebtoken';
+
+import { JWT_SECRET_KEY } from '#root/config.js';
 import { users } from '#root/db/schema.js';
 import { db } from '#root/lib/drizzle.js';
 import { validate } from '#root/middleware/validations.js';
 import { hash } from '#root/utils/auth.js';
 
 import { schema } from './validations.js';
+
+const { HTTP_STATUS_OK, HTTP_STATUS_BAD_REQUEST } = constants;
 
 const isEmailTaken = (email) =>
 	db.execute(sql`SELECT EXISTS (SELECT 1 FROM users WHERE username = ${email})`);
@@ -28,6 +34,12 @@ export const signUp = [
 	},
 ];
 
-export const signIn = async (req, res) => {};
+export const signIn = ({ body }, res) => {
+	jwt.sign({ body }, JWT_SECRET_KEY, (error, token) => {
+		const [status, data] =
+			error == null ? [HTTP_STATUS_OK, token] : [HTTP_STATUS_BAD_REQUEST, error];
+		res.status(status).send(data);
+	});
+};
 
 export const signOut = async (req, res) => {};
