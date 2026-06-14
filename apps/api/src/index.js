@@ -12,7 +12,7 @@ app.use(pino);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/v1/', api);
+app.use('/api/v1', api);
 
 app.use(handleNotFoundError);
 app.use(handleError);
