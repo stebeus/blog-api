@@ -1,6 +1,6 @@
 import { eq } from 'drizzle-orm';
 
-import { articles } from '#root/db/schema.js';
+import { articles, comments } from '#root/db/schema.js';
 import { db } from '#root/lib/drizzle.js';
 import { verifyToken } from '#root/middleware/auth.js';
 import { validate } from '#root/middleware/validations.js';
@@ -53,7 +53,10 @@ export const del = [
 	verifyToken,
 	async (req, res) => {
 		const { id } = req.params;
-		const data = await db.delete(articles).where(eq(articles.id, id)).returning();
-		res.send({ data });
+
+		const article = await db.delete(articles).where(eq(articles.id, id)).returning();
+		const comment = await db.delete(comments).where(eq(comments.articleId, id)).returning();
+
+		res.send({ data: { article, comment } });
 	},
 ];
