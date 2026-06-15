@@ -5,8 +5,8 @@ import { del, getFirst, getMany, patch, post } from './handlers.js';
 
 export const router = Router();
 
-router.get('/', getFirst);
-router.get('/:id', getMany);
+router.get('/', getMany);
+router.get('/:id', getFirst);
 router.post('/', post);
 router.patch('/:id', patch);
 router.delete('/:id', del);
