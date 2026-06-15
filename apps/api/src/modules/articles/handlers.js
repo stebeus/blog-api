@@ -2,6 +2,7 @@ import { eq } from 'drizzle-orm';
 
 import { articles } from '#root/db/schema.js';
 import { db } from '#root/lib/drizzle.js';
+import { verifyToken } from '#root/middleware/auth.js';
 import { validate } from '#root/middleware/validations.js';
 
 import { schema } from './validations.js';
@@ -17,8 +18,11 @@ export const getFirst = async ({ params: { id } }, res) => {
 };
 
 export const post = [
+	verifyToken,
 	validate(schema),
-	async ({ body, user }, res) => {
+	async ({ body }, res) => {
+		const { user } = res.locals;
+
 		const data = await db
 			.insert(articles)
 			.values({ ...body, authorId: user.id })
@@ -29,6 +33,7 @@ export const post = [
 ];
 
 export const patch = [
+	verifyToken,
 	validate(schema),
 	async ({ body, params: { id } }, res) => {
 		const data = await db.update(articles).set(body).where(eq(articles.id, id)).returning();
@@ -37,6 +42,7 @@ export const patch = [
 ];
 
 export const del = [
+	verifyToken,
 	async ({ params: { id } }, res) => {
 		const data = await db.delete(articles).where(eq(articles.id, id)).returning();
 		res.send({ data });
