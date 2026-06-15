@@ -11,6 +11,6 @@ router.post('/', post);
 router.patch('/:id', patch);
 router.delete('/:id', del);
 
-router.use('articles', comments);
+router.use('/:id/comments', comments);
 
 export { router as articles };

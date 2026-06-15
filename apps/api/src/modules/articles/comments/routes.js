@@ -4,7 +4,7 @@ import { del, getMany, patch, post } from './handlers.js';
 
 const router = Router();
 
-router.get('/:id', getMany);
+router.get('/', getMany);
 router.post('/', post);
 router.patch('/:id', patch);
 router.delete('/:id', del);
