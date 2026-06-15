@@ -12,12 +12,9 @@
 	"css": {
 		"formatter": {
 			"quoteStyle": "single"
-		}
-	},
-	"html": {
-		"experimentalFullSupportEnabled": true,
-		"formatter": {
-			"enabled": true
+		},
+		"parser": {
+			"tailwindDirectives": true
 		}
 	},
 	"linter": {
