@@ -8,7 +8,9 @@ import { schema } from './validations.js';
 
 export const signUp = [
 	validate(schema),
-	async ({ body: { name, email, password } }, res) => {
+	async (req, res) => {
+		const { name, email, password } = req.body;
+
 		const hashedPassword = await hash(password);
 
 		const data = await db

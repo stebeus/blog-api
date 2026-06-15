@@ -12,7 +12,8 @@ export const getMany = async (req, res) => {
 	res.send({ data });
 };
 
-export const getFirst = async ({ params: { id } }, res) => {
+export const getFirst = async (req, res) => {
+	const { id } = req.params;
 	const data = await db.query.articles.findFirst({ where: { id } });
 	res.send({ data });
 };
@@ -20,7 +21,8 @@ export const getFirst = async ({ params: { id } }, res) => {
 export const post = [
 	verifyToken,
 	validate(schema),
-	async ({ body }, res) => {
+	async (req, res) => {
+		const { body } = req;
 		const { user } = res.locals;
 
 		const data = await db
@@ -35,15 +37,22 @@ export const post = [
 export const patch = [
 	verifyToken,
 	validate(schema),
-	async ({ body, params: { id } }, res) => {
+	async (req, res) => {
+		const {
+			body,
+			params: { id },
+		} = req;
+
 		const data = await db.update(articles).set(body).where(eq(articles.id, id)).returning();
+
 		res.send({ data });
 	},
 ];
 
 export const del = [
 	verifyToken,
-	async ({ params: { id } }, res) => {
+	async (req, res) => {
+		const { id } = req.params;
 		const data = await db.delete(articles).where(eq(articles.id, id)).returning();
 		res.send({ data });
 	},

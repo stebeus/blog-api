@@ -10,10 +10,12 @@ import { forbiddenError } from './errors.js';
 
 const { HTTP_STATUS_BAD_REQUEST } = constants;
 
-export const authenticate = async ({ body: { email, password } }, res, next) => {
-	const error = 'Invalid credentials';
+export const authenticate = async (req, res, next) => {
+	const { email, password } = req.body;
 
 	const user = await db.query.users.findFirst({ where: { email } });
+	const error = 'Invalid credentials';
+
 	if (user == null) return res.status(HTTP_STATUS_BAD_REQUEST).send({ error });
 
 	const isMatch = await compare(password, user.password);
@@ -23,7 +25,8 @@ export const authenticate = async ({ body: { email, password } }, res, next) => 
 	res.send({ token });
 };
 
-export const verifyToken = ({ headers: { authorization } }, res, next) => {
+export const verifyToken = (req, res, next) => {
+	const { authorization } = req.headers;
 	if (authorization == null) return next(forbiddenError);
 
 	const [, token] = authorization.split(' ');
