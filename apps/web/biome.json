@@ -1,7 +1,6 @@
 {
 	"extends": "//",
 	"assist": {
-		"enabled": true,
 		"actions": {
 			"source": {
 				"noDuplicateClasses": "on",
