@@ -125,7 +125,7 @@
 	"overrides": [
 		{
 			"assist": { "actions": { "source": { "useSortedKeys": "off" } } },
-			"includes": ["**/*.{js,ts}", "**/package.json", "!**/*.config.{js,ts}", "!**/lib/**"]
+			"includes": ["**/*.{js,jsx,ts,tsx}", "**/package.json", "!**/*.config.{js,ts}", "!**/lib/**"]
 		},
 		{
 			"includes": ["**/*.config.{js,ts}"],
