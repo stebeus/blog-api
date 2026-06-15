@@ -9,7 +9,7 @@
 	"scripts": {
 		"db:push": "drizzle-kit push",
 		"db:studio": "drizzle-kit studio --port=3999 --verbose",
-		"lint": "biome check --reporter=concise --fix",
+		"lint": "biome check --fix --reporter=concise",
 		"start": "node --watch src/index.js",
 		"test": "node --test --watch"
 	},
