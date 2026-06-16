@@ -5,14 +5,20 @@ import { flattenError } from 'zod';
 const { HTTP_STATUS_BAD_REQUEST } = constants;
 
 export const validate = (schema) => (req, res, next) => {
-	const { data, success, error } = schema.safeParse(req.body);
+	const { body, params, query } = req;
+	const { data, success, error } = schema.safeParse({ body, params, query });
 
 	if (!success) {
 		const { fieldErrors } = flattenError(error);
 		return res.status(HTTP_STATUS_BAD_REQUEST).send({ errors: fieldErrors });
 	}
 
-	req.body = data;
+	const keys = ['body', 'params', 'query'];
+
+	for (const key of keys) {
+		if (!Object.hasOwn(req, key)) break;
+		req[key] = data[key];
+	}
 
 	next();
 };
