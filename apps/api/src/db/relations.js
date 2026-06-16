@@ -8,11 +8,9 @@ export const relations = defineRelations(schema, (r) => ({
 			from: r.articles.authorId,
 			to: r.users.id,
 		}),
-	},
-	comments: {
-		article: r.one.articles({
-			from: r.comments.articleId,
-			to: r.articles.id,
+		comments: r.many.comments({
+			from: r.articles.id,
+			to: r.comments.articleId,
 		}),
 	},
 }));
