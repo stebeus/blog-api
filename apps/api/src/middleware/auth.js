@@ -21,7 +21,7 @@ export const authenticate = async (req, res, next) => {
 	const isMatch = await compare(password, user.password);
 	if (!isMatch) return res.status(HTTP_STATUS_BAD_REQUEST).send({ error });
 
-	const token = jwt.sign({ user }, JWT_SECRET_KEY, { expiresIn: '1h' });
+	const token = jwt.sign({ user }, JWT_SECRET_KEY, { expiresIn: '30d' });
 	res.send({ token });
 };
 
