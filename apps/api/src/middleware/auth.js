@@ -31,7 +31,7 @@ export const verifyToken = (req, res, next) => {
 
 	const [, token] = authorization.split(' ');
 
-	jwt.verify(token, JWT_SECRET_KEY, (error, { user }) => {
+	jwt.verify(token, JWT_SECRET_KEY, (error, { user } = {}) => {
 		res.locals.user = user;
 		next(error != null && forbiddenError);
 	});
