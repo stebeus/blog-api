@@ -10,7 +10,14 @@ import { body, params, query } from './validations.js';
 export const getMany = [
 	validate({ query }),
 	async (req, res) => {
-		const data = await db.query.articles.findMany({ with: { author: true, comments: true } });
+		const { query } = req;
+		const withQuery = query != null && { where: query };
+
+		const data = await db.query.articles.findMany({
+			...withQuery,
+			with: { author: true, comments: true },
+		});
+
 		res.send({ data });
 	},
 ];
