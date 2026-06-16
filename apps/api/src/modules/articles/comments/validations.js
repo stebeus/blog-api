@@ -15,5 +15,5 @@ export const body = object({
 });
 
 export const params = object({
-	id: coerce.number(),
+	commentId: coerce.number(),
 });

@@ -14,7 +14,7 @@ export const body = object({
 });
 
 export const params = object({
-	id: coerce.number(),
+	articleId: coerce.number(),
 });
 
 export const query = object({

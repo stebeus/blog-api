@@ -6,11 +6,11 @@ import { del, getFirst, getMany, patch, post } from './handlers.js';
 export const router = Router();
 
 router.get('/', getMany);
-router.get('/:id', getFirst);
+router.get('/:articleId', getFirst);
 router.post('/', post);
-router.patch('/:id', patch);
-router.delete('/:id', del);
+router.patch('/:articleId', patch);
+router.delete('/:articleId', del);
 
-router.use('/:id/comments', comments);
+router.use('/:articleId/comments', comments);
 
 export { router as articles };

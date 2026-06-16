@@ -2,11 +2,11 @@ import { Router } from 'express';
 
 import { del, getMany, patch, post } from './handlers.js';
 
-const router = Router();
+const router = Router({ mergeParams: true });
 
 router.get('/', getMany);
 router.post('/', post);
-router.patch('/:id', patch);
-router.delete('/:id', del);
+router.patch('/:commentId', patch);
+router.delete('/:commentId', del);
 
 export { router as comments };

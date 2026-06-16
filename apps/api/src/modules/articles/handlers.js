@@ -25,10 +25,10 @@ export const getMany = [
 export const getFirst = [
 	validate({ params }),
 	async (req, res) => {
-		const { id } = req.params;
+		const { articleId } = req.params;
 
 		const data = await db.query.articles.findFirst({
-			where: { id },
+			where: { id: articleId },
 			with: { author: true, comments: true },
 		});
 
@@ -58,10 +58,10 @@ export const patch = [
 	async (req, res) => {
 		const {
 			body,
-			params: { id },
+			params: { articleId },
 		} = req;
 
-		const data = await db.update(articles).set(body).where(eq(articles.id, id)).returning();
+		const data = await db.update(articles).set(body).where(eq(articles.id, articleId)).returning();
 
 		res.send({ data });
 	},
@@ -71,10 +71,10 @@ export const del = [
 	verifyToken,
 	validate({ params }),
 	async (req, res) => {
-		const { id } = req.params;
+		const { articleId } = req.params;
 
-		const article = await db.delete(articles).where(eq(articles.id, id)).returning();
-		const comment = await db.delete(comments).where(eq(comments.articleId, id)).returning();
+		const article = await db.delete(articles).where(eq(articles.id, articleId)).returning();
+		const comment = await db.delete(comments).where(eq(comments.articleId, articleId)).returning();
 
 		res.send({ data: { article, comment } });
 	},
