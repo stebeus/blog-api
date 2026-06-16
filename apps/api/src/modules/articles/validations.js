@@ -6,9 +6,11 @@ import { useMax, useMin } from '#root/utils/validations.js';
 const { title } = articles;
 
 export const schema = object({
-	title: string()
-		.min(...useMin())
-		.max(...useMax(title.length, 'Title')),
-	content: string().min(...useMin()),
-	isPublic: stringbool(),
+	body: object({
+		title: string()
+			.min(...useMin())
+			.max(...useMax(title.length, 'Title')),
+		content: string().min(...useMin()),
+		isPublic: stringbool(),
+	}),
 });

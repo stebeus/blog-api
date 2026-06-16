@@ -6,10 +6,12 @@ import { useMax, useMin } from '#root/utils/validations.js';
 const { author, content } = comments;
 
 export const schema = object({
-	author: string()
-		.min(...useMin())
-		.max(...useMax(author.length, 'Your name')),
-	content: string()
-		.min(...useMin())
-		.max(...useMax(content.length, 'Comment')),
+	body: object({
+		author: string()
+			.min(...useMin())
+			.max(...useMax(author.length, 'Your name')),
+		content: string()
+			.min(...useMin())
+			.max(...useMax(content.length, 'Comment')),
+	}),
 });
