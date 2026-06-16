@@ -8,10 +8,7 @@ export const validate = (schema) => (req, res, next) => {
 	const { body, params, query } = req;
 	const { data, success, error } = schema.safeParse({ body, params, query });
 
-	if (!success) {
-		const { fieldErrors } = flattenError(error);
-		return res.status(HTTP_STATUS_BAD_REQUEST).send({ errors: fieldErrors });
-	}
+	if (!success) return res.status(HTTP_STATUS_BAD_REQUEST).send({ error: flattenError(error) });
 
 	const keys = ['body', 'params', 'query'];
 
