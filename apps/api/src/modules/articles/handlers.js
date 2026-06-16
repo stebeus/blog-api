@@ -1,31 +1,37 @@
 import { eq } from 'drizzle-orm';
+import validate from 'express-zod-safe';
 
 import { articles, comments } from '#root/db/schema.js';
 import { db } from '#root/lib/drizzle.js';
 import { verifyToken } from '#root/middleware/auth.js';
-import { validate } from '#root/middleware/validations.js';
 
-import { schema } from './validations.js';
+import { body, params, query } from './validations.js';
 
-export const getMany = async (req, res) => {
-	const data = await db.query.articles.findMany({ with: { author: true, comments: true } });
-	res.send({ data });
-};
+export const getMany = [
+	validate({ query }),
+	async (req, res) => {
+		const data = await db.query.articles.findMany({ with: { author: true, comments: true } });
+		res.send({ data });
+	},
+];
 
-export const getFirst = async (req, res) => {
-	const { id } = req.params;
+export const getFirst = [
+	validate({ params }),
+	async (req, res) => {
+		const { id } = req.params;
 
-	const data = await db.query.articles.findFirst({
-		where: { id },
-		with: { author: true, comments: true },
-	});
+		const data = await db.query.articles.findFirst({
+			where: { id },
+			with: { author: true, comments: true },
+		});
 
-	res.send({ data });
-};
+		res.send({ data });
+	},
+];
 
 export const post = [
 	verifyToken,
-	validate(schema),
+	validate({ body }),
 	async (req, res) => {
 		const { body } = req;
 		const { user } = res.locals;
@@ -41,7 +47,7 @@ export const post = [
 
 export const patch = [
 	verifyToken,
-	validate(schema),
+	validate({ body, params }),
 	async (req, res) => {
 		const {
 			body,
@@ -56,6 +62,7 @@ export const patch = [
 
 export const del = [
 	verifyToken,
+	validate({ params }),
 	async (req, res) => {
 		const { id } = req.params;
 

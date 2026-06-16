@@ -1,13 +1,14 @@
+import validate from 'express-zod-safe';
+
 import { users } from '#root/db/schema.js';
 import { db } from '#root/lib/drizzle.js';
 import { authenticate } from '#root/middleware/auth.js';
-import { validate } from '#root/middleware/validations.js';
 import { hash } from '#root/utils/auth.js';
 
-import { schema } from './validations.js';
+import { body } from './validations.js';
 
 export const signUp = [
-	validate(schema),
+	validate({ body }),
 	async (req, res) => {
 		const { name, email, password } = req.body;
 
