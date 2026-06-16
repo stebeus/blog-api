@@ -8,13 +8,18 @@ import { validate } from '#root/middleware/validations.js';
 import { schema } from './validations.js';
 
 export const getMany = async (req, res) => {
-	const data = await db.query.articles.findMany();
+	const data = await db.query.articles.findMany({ with: { author: true, comments: true } });
 	res.send({ data });
 };
 
 export const getFirst = async (req, res) => {
 	const { id } = req.params;
-	const data = await db.query.articles.findFirst({ where: { id } });
+
+	const data = await db.query.articles.findFirst({
+		where: { id },
+		with: { author: true, comments: true },
+	});
+
 	res.send({ data });
 };
 
