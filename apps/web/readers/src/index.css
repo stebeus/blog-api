@@ -1,1 +1,118 @@
-/* @import 'tailwindcss'; */
+@import 'tailwindcss';
+
+/* CSS DIRECTORY
+	1. DESIGN TOKENS
+	2. BASE
+	3. UTILS
+*/
+
+/* || DESIGN TOKENS */
+
+:root {
+	/* Colors */
+	--color-base: oklch(0.2 0 0);
+	--color-border: oklch(from var(--color-base) calc(l + 0.1) c h);
+	--color-content: oklch(0.95 0 0);
+	--color-content-muted: oklch(from var(--color-content) calc(l - 0.2) c h);
+	--color-hover: white;
+	--color-hover-inverted: black;
+
+	@media (prefers-color-scheme: light) {
+		--color-base: oklch(1 0 0);
+		--color-border: oklch(from var(--color-base) calc(l - 0.1) c h);
+		--color-content: oklch(0.2 0 0);
+		--color-content-muted: oklch(from var(--color-content) calc(l + 0.3) c h);
+		--color-hover: black;
+		--color-hover-inverted: white;
+	}
+}
+
+@theme {
+	--color-base: var(--color-base);
+	--color-border-default: var(--color-border);
+	--color-content: var(--color-content);
+	--color-content-muted: var(--color-content-muted);
+	--color-hover: var(--color-hover);
+	--color-hover-inverted: var(--color-hover-inverted);
+}
+
+/* || BASE */
+
+@layer base {
+	a:hover,
+	h1,
+	h2,
+	h3,
+	legend {
+		color: var(--color-content);
+	}
+
+	h1,
+	h2,
+	h3,
+	legend {
+		font-weight: var(--font-weight-bold);
+	}
+
+	h4,
+	h5,
+	h6 {
+		font-weight: var(--font-weight-medium);
+	}
+
+	h2 {
+		font-size: var(--text-lg);
+	}
+
+	h3 {
+		font-size: var(--text-xl);
+	}
+}
+
+/* || UTILS */
+
+@utility interactive {
+	&:hover {
+		--percentage: 10%;
+
+		background-color: color-mix(in oklch, var(--color-base), var(--color-hover) var(--percentage));
+		border-color: transparent;
+
+		&:where(.modifier-danger, .modifier-warning, .modifier-success, .modifier-info) {
+			color: var(--color-base);
+			background-color: var(--color-content);
+		}
+
+		&:where(.modifier-inverted) {
+			background-color: color-mix(
+				in oklch,
+				var(--color-content),
+				var(--color-hoverInverted) var(--percentage)
+			);
+		}
+	}
+}
+
+@utility separator-disc {
+	&::after {
+		margin: 0 0.375rem;
+		color: var(--color-content-muted);
+		content: '•';
+	}
+}
+
+@utility separator-pipe {
+	&::after {
+		margin: 0 0.75rem;
+		content: '';
+		border-left: 1px solid var(--color-border);
+	}
+}
+
+@utility transition-spin {
+	transition: transform 750ms;
+
+	&:hover {
+		transform: rotate(1turn);
+	}
+}
