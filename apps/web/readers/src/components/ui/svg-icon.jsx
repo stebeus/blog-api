@@ -1,10 +1,10 @@
 import { kebabCase } from 'change-case';
 
-export const SvgIcon = ({ title }) => {
+export const SvgIcon = ({ title, className }) => {
 	const id = kebabCase(title.toLowerCase());
 
 	return (
-		<svg width={24} height={24}>
+		<svg className={className} width={24} height={24}>
 			<title>{title}</title>
 			<use href={`/icons.svg#${id}-icon`} />
 		</svg>
