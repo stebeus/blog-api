@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Blog Console</title>
+    <style>
+      * {
+        line-height: calc(2px + 2ex + 2px);
+      }
+
+      input:not([type='checkbox'], [type='radio']) {
+        min-width: 200px;
+        max-width: 100vw;
+
+        @supports(field-sizing: content) {
+          field-sizing: content;
+        }
+      }
+    </style>
+    <script type="module" src="/index.js"></script>
+	</head>
+	<body>
+    <main>
+      <h1>Blog Console</h1>
+      <p>Manage your articles by requesting the following API endpoints:</p>
+
+      <section>
+        <h2>Users</h2>
+        <ul>
+          <li>Create an account with <code>POST users/sign-up</code></li>
+          <li>Get your JSON Web Token (JWT) authorization with <code>POST users/sign-in</code></li>
+        </ul>
+        <p>Authorization tokens lasts up to three months.</p>
+      </section>
+
+      <section>
+        <h2>Articles</h2>
+        <ul>
+          <li>
+            Get all articles with <code>GET articles</code>. It accepts the following options:
+            <ul>
+              <li>Filter by privacy: <code>GET articles?isPublic=[true|false]</code></li>
+              <li>Filter by user: <code>GET articles?userId=[number]</code></li>
+              <li>Find a specific article: <code>GET articles/[id]</code></li>
+            </ul>
+          </li>
+          <li>Create an article with <code>POST articles</code></li>
+          <li>Edit an article with <code>PATCH articles/[id]</code></li>
+          <li>Delete an article with <code>DELETE articles/[id]</code></li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Comments</h2>
+        <ul>
+          <li>Get all article comments with <code>GET articles/[id]/comments</code></li>
+          <li>Create a comment with <code>POST articles/[id]/comments</code></li>
+          <li>Edit a comment with <code>PATCH articles/[id]/comments/[id]</code></li>
+          <li>Delete a comment with <code>DELETE articles/[id]/comments/[id]</code></li>
+        </ul>
+      </section>
+
+      <hr>
+
+      <section>
+        <h2>Console</h2>
+
+        <form id="user-form" action="" method="post">
+          <h3>User endpoints</h3>
+
+          <label>
+            Name (required for signup):
+            <input
+              type="text"
+              name="name"
+              placeholder="John Doe"
+              autocomplete="name"
+              autocapitalize="words"
+            >
+          </label>
+
+          <label>
+            Email:
+            <input
+              type="email"
+              name="email"
+              placeholder="john_doe123@email.com"
+              autocomplete="email"
+              required
+            >
+          </label>
+
+          <label>
+            Password (must be at least 8 characters long):
+            <input
+              type="text"
+              name="password"
+              autocomplete="new-password"
+              minlength="8"
+              maxlength="100"
+              required
+            >
+          </label>
+
+          <button type="submit">Submit</button>
+        </form>
+
+        <form id="articles-form">
+          <h3>Article and comment endpoints</h3>
+
+          <fieldset>
+            <legend>All request types</legend>
+            <label>
+              Request:
+              <input
+                id="request"
+                type="text"
+                name="request"
+                placeholder="get articles/1/comments"
+                autocomplete="off"
+                required
+              >
+            </label>
+            <label>
+              JWT (required for <code>POST</code>, <code>PATCH</code>, and <code>DELETE</code> requests):
+              <input
+                type="text"
+                name="jwt"
+                placeholder=""
+                autocomplete="off"
+              >
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>POST & PATCH requests for articles (optional)</legend>
+            <label>
+              Title (cannot be longer than 50 characters):
+              <input
+                type="text"
+                name="title"
+                autocomplete="off"
+                minlength="1"
+                maxlength="50"
+              >
+            </label>
+            <label>
+              Content:
+              <textarea name="articleText" minlength="1"></textarea>
+            </label>
+
+            <label>
+              Public:
+              <input type="checkbox" name="isPublic" checked>
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>PATCH requests for comments (optional)</legend>
+            <label>
+              Author name (cannot be longer than 100 characters):
+              <input
+                type="text"
+                name="author"
+                autocomplete="on"
+                minlength="1"
+                maxlength="100"
+              >
+            </label>
+            <label>
+              Content (cannot be longer than 500 characters):
+              <textarea name="commentText" minlength="1" maxlength="500"></textarea>
+            </label>
+          </fieldset>
+
+          <button type="submit">Submit</button>
+
+          <h4>Response output</h4>
+          <pre><output id="response-output" for="request"></output></pre>
+        </form>
+      </section>
+    </main>
+	</body>
+</html>
