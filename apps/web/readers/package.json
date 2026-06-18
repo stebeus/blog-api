@@ -1,33 +1,36 @@
 {
-	"name": "readers",
-	"version": "0.0.0",
-	"private": true,
-	"type": "module",
-	"imports": {
-		"#root/*": "./src/*"
-	},
-	"scripts": {
-		"build": "vite build",
-		"dev": "vite",
-		"lint": "biome check --fix --reporter=concise",
-		"preview": "vite preview",
-		"test": "node --test --watch"
-	},
-	"dependencies": {
-		"change-case": "^5.4.4",
-		"react": "^19.2.6",
-		"react-dom": "^19.2.6",
-		"react-router": "^7.17.0"
-	},
-	"devDependencies": {
-		"@babel/core": "^7.29.0",
-		"@rolldown/plugin-babel": "^0.2.3",
-		"@tailwindcss/vite": "^4.3.1",
-		"@types/react": "^19.2.14",
-		"@types/react-dom": "^19.2.3",
-		"@vitejs/plugin-react": "^6.0.1",
-		"babel-plugin-react-compiler": "^1.0.0",
-		"tailwindcss": "^4.3.1",
-		"vite": "^8.0.12"
-	}
+  "name": "readers",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#root/*": "./src/*"
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "lint": "biome check --fix --reporter=concise",
+    "preview": "npm run build && wrangler dev",
+    "test": "node --test --watch",
+    "deploy": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "change-case": "^5.4.4",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-router": "^7.17.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@cloudflare/vite-plugin": "^1.41.0",
+    "@rolldown/plugin-babel": "^0.2.3",
+    "@tailwindcss/vite": "^4.3.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "tailwindcss": "^4.3.1",
+    "vite": "^8.0.12",
+    "wrangler": "^4.101.0"
+  }
 }
